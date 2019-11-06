@@ -8,20 +8,21 @@
  *
  * @param timestamp
  */
+
+text = null
 function getContent(timestamp) {
     var queryString = { 'timestamp': timestamp };
 
     $.ajax(
         {
             type: 'GET',
-            url: 'http://volga.e3.valueserver.jp/exp/server.php',
+            url: 'http://volga.e3.valueserver.jp/VolgaChat/server3.php',
             data: queryString,
             success: function (data) {
                 // put result data into "obj"
                 var obj = jQuery.parseJSON(data);
                 // put the data_from_file into #response
-                document.getElementById('responce').innerText += obj.data_from_file;
-                //$('#response').html(obj.data_from_file);
+                $('#response').html(obj.data_from_file);
                 // call the function again, this time with the timestamp we just got from server.php
                 getContent(obj.timestamp);
             }
@@ -35,3 +36,25 @@ $(function () {
 });
 
 console.log('hihihih')
+
+let request = null;
+
+function get() {
+    console.log('get')
+    request = new XMLHttpRequest();
+    request.open("GET", "server3.php?timestamp=" + new Date().getTime() + '&text=' + text, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //request.send("timestamp=" + new Date().getTime());
+    request.send(null);
+}
+
+function sub() {
+    console.log('sub');
+    text = document.getElementById('text').value;
+    document.getElementById('text').value = '';
+    console.log(text);
+    get();
+    text = null
+}
+
+//get();

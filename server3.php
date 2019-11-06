@@ -17,12 +17,21 @@ set_time_limit(0);
 
 // where does the data come from ? In real world this would be a SQL query or something
 $data_source_file = 'data.txt';
+$last=null;
 
 // main loop
 while (true) {
-
     // if ajax request has send a timestamp, then $last_ajax_call = timestamp, else $last_ajax_call = null
-    $last_ajax_call = isset($_POST['timestamp']) ? (int)$_POST['timestamp'] : null;
+    $last_ajax_call = isset($_GET['timestamp']) ? (int)$_GET['timestamp'] : null;
+    $lastText=isset($_GET['text'])?$_GET['text']:null;
+
+    if($last!==$_GET['text']){
+        $last=$_GET['text'];
+        $f=fopen($data_source_file,'a');
+        fwrite($f,$last);
+        fclose($f);
+        $last_ajax_call == null;
+    } 
 
     // PHP caches file data, like requesting the size of a file, by default. clearstatcache() clears that cache
     clearstatcache();
@@ -47,7 +56,6 @@ while (true) {
 
         // leave this loop step
         break;
-
     } else {
         // wait for 1 sec (not very sexy as this blocks the PHP/Apache process, but that's how it goes)
         sleep( 1 );
