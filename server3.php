@@ -28,7 +28,7 @@ while (true) {
     if($last!==$_GET['text']){
         $last=$_GET['text'];
         $f=fopen($data_source_file,'a');
-        fwrite($f,$last);
+        fwrite($f,$_GET['name'].':'.htmlspecialchars($last).'<font color="#888888">('.$_GET['time'].')</font><br>');
         fclose($f);
         $last_ajax_call == null;
     } 

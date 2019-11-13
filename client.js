@@ -9,6 +9,8 @@
  * @param timestamp
  */
 
+const name = prompt('名前を入力してください');
+
 text = null
 function getContent(timestamp) {
     var queryString = { 'timestamp': timestamp };
@@ -22,6 +24,7 @@ function getContent(timestamp) {
                 // put result data into "obj"
                 var obj = jQuery.parseJSON(data);
                 // put the data_from_file into #response
+                //document.getElementById('response').innerText = obj.data_from_file + document.getElementById('response').innerText;
                 $('#response').html(obj.data_from_file);
                 // call the function again, this time with the timestamp we just got from server.php
                 getContent(obj.timestamp);
@@ -42,7 +45,9 @@ let request = null;
 function get() {
     console.log('get')
     request = new XMLHttpRequest();
-    request.open("GET", "server3.php?timestamp=" + new Date().getTime() + '&text=' + text, true);
+    const time = new Date().toLocaleString();
+    const url = "server3.php?timestamp=" + new Date().getTime() + '&text=' + encodeURIComponent(text) + '&name=' + name + '&time=' + time;
+    request.open("GET", url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     //request.send("timestamp=" + new Date().getTime());
     request.send(null);
