@@ -11,6 +11,7 @@
 
 const name = prompt('名前を入力してください');
 
+
 text = null
 function getContent(timestamp) {
     var queryString = { 'timestamp': timestamp };
@@ -46,7 +47,7 @@ function get() {
     console.log('get')
     request = new XMLHttpRequest();
     const time = new Date().toLocaleString();
-    const url = "server3.php?timestamp=" + new Date().getTime() + '&text=' + encodeURIComponent(text) + '&name=' + name + '&time=' + time;
+    const url = "server3.php?timestamp=" + new Date().getTime() + '&text=' + encodeURIComponent(text) + '&name=' + encodeURIComponent(name) + '&time=' + encodeURIComponent(time);
     request.open("GET", url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     //request.send("timestamp=" + new Date().getTime());
